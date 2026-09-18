@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
-const authMiddleware = require("./middleware/authMiddleware");
+const expenseRoutes = require("./routes/expenseRoutes");
 
 dotenv.config();
 
@@ -13,11 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-
-app.get("/api/expenses", authMiddleware,
-     (req, res) => {
-    res.json([]);
-});
+app.use("/api/expenses", expenseRoutes);
 
 const PORT = 5000;
 
