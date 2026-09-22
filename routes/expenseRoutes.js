@@ -6,17 +6,36 @@ const router = express.Router();
 
 router.get("/", authMiddleware, async (req, res) => {
     try {
-        const expenses = await Expense.find({
+        const { year, month } = req.query;
+
+        const filter = {
             userId: req.user.id,
-        }).sort({ date: -1 });
+        };
+
+        if (year && month) {
+            const y = Number(year);
+            const m = Number(month);
+
+            const start = new Date(y, m - 1, 1);
+            const end = new Date(y, m, 1);
+
+            filter.date = {
+                $gte: start,
+                $lt: end,
+            };
+        }
+
+        const expenses = await Expense.find(filter).sort({
+            date: -1
+        });
 
         res.json(expenses);
     } catch (error) {
         res.status(500).json({
             message: "Server error",
-        });
-    }
-});
+        })
+    }   
+})
 
 router.post("/", authMiddleware, async (req, res) => {
     try {
