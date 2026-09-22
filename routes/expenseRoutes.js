@@ -12,6 +12,10 @@ router.get("/", authMiddleware, async (req, res) => {
             userId: req.user.id,
         };
 
+        if (req.query.category) {
+            filter.category = req.query.category;
+        }
+
         if (year && month) {
             const y = Number(year);
             const m = Number(month);
@@ -22,6 +26,11 @@ router.get("/", authMiddleware, async (req, res) => {
             filter.date = {
                 $gte: start,
                 $lt: end,
+            };
+        } else if (req.query.from && req.query.to) {
+            filter.date = {
+                $gte: new Date(req.query.from),
+                $lt: new Date(req.query.to),
             };
         }
 
