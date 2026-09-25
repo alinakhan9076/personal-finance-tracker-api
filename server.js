@@ -5,6 +5,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
 const summaryRoutes = require("./routes/summaryRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/summary", summaryRoutes);
+app.use("/api/budget", budgetRoutes);
 
 const PORT = 5000;
 
